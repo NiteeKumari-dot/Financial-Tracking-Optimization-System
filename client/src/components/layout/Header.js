@@ -36,7 +36,7 @@ const Header = () => {
           <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
             <Link className="navbar-brand" to={"/"}>
               <XOutlined />
-              <span className="fw-bold">Expanse Management App</span>
+              <span className="fw-bold">Financial Tracking & Optimization System</span>
             </Link>
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
               <li className="nav-item">
