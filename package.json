@@ -1,17 +1,16 @@
 {
-  "name": "Expanse App",
+  "name": "FinTrac",
   "version": "1.0.0",
-  "description": "Expense tracking app",
+  "description": "Financial Tracking & Optimization System",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [],
-  "author": "manish",
-  "license": "NIT",
+  "author": "Nitee",
+  "license": "ANCD",
   "dependencies": {
     "cloudinary": "^2.0.3",
     "colors": "^1.4.0",
@@ -26,5 +25,15 @@
     "multer": "^1.4.5-lts.1",
     "nodemon": "^3.1.0",
     "path": "^0.12.7"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NiteeKumari-dot/Financial-Tracking-Optimization-System.git"
+  },
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/NiteeKumari-dot/Financial-Tracking-Optimization-System.git"
+  },
+  "homepage": "https://github.com/NiteeKumari-dot/Financial-Tracking-Optimization-System.git",
+  "devDependencies": {}
 }
