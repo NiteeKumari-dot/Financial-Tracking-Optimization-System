@@ -34,7 +34,19 @@ const loginControler = async (req, res) => {
 
 const registerControler = async (req, res) => {
   try {
-    const newUser = new userModel(req.body);
+    const { email, name, password } = req.body;
+
+    // Check if user already exists
+    const existingUser = await userModel.findOne({ email });
+    if (existingUser) {
+      return res.status(400).send({
+        success: false,
+        message: "Email already exists. Please login.",
+      });
+    }
+
+    // Create new user
+    const newUser = new userModel({ name, email, password });
     await newUser.save();
 
     res.status(200).send({
@@ -42,13 +54,14 @@ const registerControler = async (req, res) => {
       newUser,
     });
   } catch (error) {
-    res.status(400).send({
+    console.error("Registration Error:", error);
+    res.status(500).send({
       success: false,
+      message: "Registration failed",
       error,
     });
   }
 };
-
 // update profile
 
 const updateProfile = async (req, res) => {

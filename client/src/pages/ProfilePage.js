@@ -25,92 +25,160 @@ const ProfilePage = () => {
     formData.append("password", password);
 
     try {
-
-      
-      const { data } = await axios.post("/api/v1/users/update-profile", formData, {
-        headers: {
-          "Content-Type": "multiparts/form-data",
-        },
-      });
+      const { data } = await axios.post(
+        '/api/v1/users/update-profile',
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       localStorage.setItem(
         "user",
         JSON.stringify({ ...data.data, password: "" })
       );
-      setPic(!pic);
 
-      message.success("Profile Updated SuccessFully");
+      setPic(!pic);
+      message.success("Profile Updated Successfully");
     } catch (error) {
       console.log(error);
-      message.error("Profile Updated Failed");
+      message.error("Profile Update Failed");
     }
   };
 
   return (
     <Layout>
-      <h1 className="d-flex justify-content-center text-bg-dark">
-        Profile Page
-      </h1>
-      <section className="vh-100 bg-dark">
-        <div className="container py-5 h-100 ">
-          <div className="row d-flex justify-content-center align-items-center h-100 bg-dark">
-            <div className="col-md-12 col-xl-4 bg-dark">
-              <div className="card bg-gradient  " style={{ borderRadius: 15 }}>
-                <div className="card-body text-center  ">
-                  <h1 className="text-bg-dark">{user.name}</h1>
-                  <div className="mt-3 mb-4  ">
-                    <img
-                      src={pic ? URL.createObjectURL(photo) : user.photo}
-                      className="rounded-circle img-fluid"
-                      style={{ width: 200, height: 200, cursor: "pointer" }}
-                      onClick={selectImg}
-                    />
-                    <br />
+      <section
+        className="min-vh-75 d-flex align-items-center"
+        style={{
+          background: "#ffffff",
+          padding: "40px 0",
+        }}
+      >
+        <div className="container">
+          <div className="row justify-content-center">
+            <div className="col-lg-8">
+              {/* Outer Card */}
+              <div
+                className="p-4 rounded-4 shadow-sm bg-white"
+                style={{
+                  border: "1px solid #e5e7eb",
+                }}
+              >
+                <div className="row g-4">
+                  {/* LEFT SIDE */}
+                  <div className="col-md-5 text-center border-end">
+                    <h3 className="fw-bold text-dark mb-2">{user.name}</h3>
+
+                    <p className="text-muted">Account Overview</p>
+
+                    {/* Avatar */}
+                    <div className="d-flex justify-content-center">
+                      <img
+                        src={pic ? URL.createObjectURL(photo) : user.photo}
+                        className="rounded-circle shadow border"
+                        style={{
+                          width: 160,
+                          height: 160,
+                          objectFit: "cover",
+                          cursor: "pointer",
+                          transition: "0.3s",
+                        }}
+                        onClick={selectImg}
+                        onMouseOver={(e) =>
+                          (e.currentTarget.style.scale = "1.05")
+                        }
+                        onMouseOut={(e) => (e.currentTarget.style.scale = "1")}
+                      />
+                    </div>
 
                     <input
                       type="file"
-                      className="form-control"
                       id="img-input"
                       name="photo"
+                      hidden
                       onChange={(e) => {
                         setPhoto(e.target.files[0]);
                         setPic(true);
                       }}
-                      style={{ display: "none" }}
                     />
-                  </div>
-                  <div className="profile-data">
-                    <label className="fw-bolder">Name </label>
-                    <br />
-                    <input
-                      type="text"
-                      placeholder="username"
-                      defaultValue={user.name}
-                      id="username"
-                      className="border p-3 rounded-lg m-1"
-                      onChange={(e) => setName(e.target.value)}
-                    />
-                    <br />
-                    <label className="fw-bolder">Email</label>
-                    <br />
-                    <input
-                      type="email"
-                      placeholder="email"
-                      id="email"
-                      defaultValue={user.email}
-                      className="border p-3 rounded-lg m-1"
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                    <br />
+
+                    <button
+                      className="btn btn-outline-primary mt-4 px-4 fw-semibold"
+                      onClick={selectImg}
+                      style={{ borderRadius: "8px" }}
+                    >
+                      Change Photo
+                    </button>
                   </div>
 
-                  <button
-                    type="button"
-                    className="btn btn-primary btn-rounded btn-lg mt-3"
-                    onClick={updateHandler}
-                  >
-                    Update your Profile
-                  </button>
+                  {/* RIGHT SIDE FORM */}
+                  <div className="col-md-7">
+                    <h4 className="fw-semibold text-dark mb-3">Edit Profile</h4>
+
+                    {/* Name */}
+                    <div className="mb-3">
+                      <label className="fw-medium text-dark">Full Name</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        defaultValue={user.name}
+                        onChange={(e) => setName(e.target.value)}
+                        style={{
+                          height: 48,
+                          background: "#f8f9fa",
+                          color: "#000",
+                        }}
+                      />
+                    </div>
+
+                    {/* Email */}
+                    <div className="mb-3">
+                      <label className="fw-medium text-dark">
+                        Email Address
+                      </label>
+                      <input
+                        type="email"
+                        className="form-control"
+                        defaultValue={user.email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        style={{
+                          height: 48,
+                          background: "#f8f9fa",
+                          color: "#000",
+                        }}
+                      />
+                    </div>
+
+                    {/* Password */}
+                    <div className="mb-3">
+                      <label className="fw-medium text-dark">
+                        New Password
+                      </label>
+                      <input
+                        type="password"
+                        className="form-control"
+                        placeholder="Enter new password"
+                        onChange={(e) => setPassword(e.target.value)}
+                        style={{
+                          height: 48,
+                          background: "#f8f9fa",
+                          color: "#000",
+                        }}
+                      />
+                    </div>
+
+                    {/* Submit Button */}
+                    <button
+                      className="btn btn-primary w-100 fw-bold mt-3 py-2"
+                      onClick={updateHandler}
+                      style={{ borderRadius: "10px" }}
+                    >
+                      Save Changes
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

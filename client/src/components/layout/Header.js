@@ -1,16 +1,15 @@
 import { UserOutlined, XOutlined } from "@ant-design/icons";
 import { message } from "antd";
 import React, { useEffect, useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [user, setUser] = useState("");
-
   const navigate = useNavigate();
 
   const logoutHandler = () => {
     localStorage.removeItem("user");
-    message.success("Logout SuccessFull");
+    message.success("Logout Successfully");
     navigate("/login");
   };
 
@@ -19,54 +18,88 @@ const Header = () => {
   }, []);
 
   return (
-    <>
-      <nav className="navbar navbar-expand-lg bg-body-tertiary">
-        <div className="container-fluid">
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarTogglerDemo01"
-            aria-controls="navbarTogglerDemo01"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-            <Link className="navbar-brand" to={"/"}>
-              <XOutlined />
-              <span className="fw-bold">Financial Tracking and Optimization System</span>
-            </Link>
-            <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <Link
-                  to={"/profile"}
-                  className="nav-link active"
-                  aria-current="page"
-                >
-                  <div>
-                    <span className="fw-bold gap-2">{user.name}</span>
-                    <img
-                      className="profile-pic m-2"
-                      height={"100%"}
-                      width={"100%"}
-                      src={user.photo}
-                    />
-                  </div>
-                </Link>
-              </li>
+    <nav
+  className="navbar navbar-expand-lg"
+  style={{
+    background: "linear-gradient(90deg, #bbc2d4ff, #1e293b)",
+    padding: "12px 0",
+    boxShadow: "0 2px 10px rgba(0,0,0,0.15)",
+  }}
+>
+  <div className="container-fluid">
+    <Link
+      className="navbar-brand fw-bold text-white d-flex align-items-center"
+      to="/"
+      style={{ fontSize: "20px", letterSpacing: ".5px" }}
+    >
+      <XOutlined style={{ marginRight: 8, fontSize: "22px" }} />
+      Expense Management
+    </Link>
 
-              <li className="nav-item m-2">
-                <button className="btn btn-danger" onClick={logoutHandler}>
-                  Logout
-                </button>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-    </>
+    <button
+      className="navbar-toggler text-white"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarMenu"
+    >
+      <span className="navbar-toggler-icon" />
+    </button>
+
+    <div className="collapse navbar-collapse" id="navbarMenu">
+      <ul className="navbar-nav ms-auto align-items-center gap-3">
+
+        <li className="nav-item">
+          <Link
+            to="/profile"
+            className="nav-link text-white fw-semibold"
+            style={{ fontSize: "16px" }}
+          >
+            <UserOutlined style={{ marginRight: 6 }} />
+            {user?.name}
+          </Link>
+        </li>
+
+        <li className="nav-item">
+          <img
+            src={user?.photo}
+            alt="profile"
+            className="rounded-circle border border-2"
+            style={{
+              width: 42,
+              height: 42,
+              objectFit: "cover",
+              boxShadow: "0 0 8px rgba(255,255,255,0.3)",
+            }}
+          />
+        </li>
+
+        <li className="nav-item">
+          <button
+            className="btn fw-semibold"
+            onClick={logoutHandler}
+            style={{
+              background: "#ef4444",
+              borderRadius: "6px",
+              padding: "6px 16px",
+              color: "white",
+              letterSpacing: ".4px",
+              transition: "0.3s",
+            }}
+            onMouseOver={(e) =>
+              (e.target.style.background = "#dc2626")
+            }
+            onMouseOut={(e) =>
+              (e.target.style.background = "#ef4444")
+            }
+          >
+            Logout
+          </button>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
   );
 };
 

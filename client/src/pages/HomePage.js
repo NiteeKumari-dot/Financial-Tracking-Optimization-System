@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../components/layout/Layout";
+import { MessageOutlined } from "@ant-design/icons";
 import {
   UnorderedListOutlined,
   AreaChartOutlined,
@@ -14,6 +15,7 @@ import Analytics from "../components/Analytics";
 const { RangePicker } = DatePicker;
 
 const HomePage = () => {
+  const [showChat, setShowChat] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [loding, setLoding] = useState(false);
   const [transactionData, setTransactionData] = useState([]);
@@ -22,7 +24,7 @@ const HomePage = () => {
   const [type, setType] = useState("all");
   const [viewData, setViewData] = useState("table");
   const [editable, setEditable] = useState(null);
-  const [get,setGet]=useState(false);
+  const [get, setGet] = useState(false);
 
   const getTransactionData = async () => {
     try {
@@ -46,7 +48,7 @@ const HomePage = () => {
 
   useEffect(() => {
     getTransactionData();
-  }, [frequency, selectDate, type,get]);
+  }, [frequency, selectDate, type, get]);
 
   const handleSubmit = async (values) => {
     try {
@@ -64,7 +66,7 @@ const HomePage = () => {
         setLoding(false);
         setShowModal(false);
         setGet(!get);
-        
+
         message.success("Transaction Update SuccessFully");
       } else {
         setLoding(true);
@@ -74,6 +76,7 @@ const HomePage = () => {
         });
         setLoding(false);
         setShowModal(false);
+        setGet(!get); // <— ADD THIS
         message.success("Transaction Added SuccessFully");
       }
     } catch (error) {
@@ -118,12 +121,13 @@ const HomePage = () => {
       title: "Reference",
       dataIndex: "reference",
     },
-    
+
     {
       title: "Action",
       render: (text, record) => (
         <div>
-          <EditOutlined className="text-primary"
+          <EditOutlined
+            className="text-primary"
             onClick={() => {
               setEditable(record);
               setShowModal(true);
@@ -142,119 +146,202 @@ const HomePage = () => {
     <Layout>
       {loding && <Spinner />}
 
-      <div className="main-div"><div className="filters">
-        <div>
-          <h6>Select frequency</h6>
-          <Select value={frequency} onChange={(values) => setFrequency(values)}>
-            <Select.Option value="7">Last 1 Week</Select.Option>
-            <Select.Option value="30">Last 1 Month</Select.Option>
-            <Select.Option value="365">Last 1 Year</Select.Option>
-            <Select.Option value="custom">custom</Select.Option>
-          </Select>
-          {frequency === "custom" && (
-            <RangePicker
-              value={selectDate}
-              onChange={(values) => setSelectDate(values)}
-            />
-          )}
-        </div>
+      <div className="container mt-4">
+        {/* FILTER SECTION */}
+        <div className="d-flex flex-wrap gap-4 align-items-end mb-4 p-3 bg-white shadow-sm rounded-3">
+          <div className="d-flex flex-column">
+            <label className="fw-semibold mb-1">Select Frequency</label>
+            <Select
+              className="w-100"
+              value={frequency}
+              onChange={(values) => setFrequency(values)}
+            >
+              <Select.Option value="7">Last 1 Week</Select.Option>
+              <Select.Option value="30">Last 1 Month</Select.Option>
+              <Select.Option value="365">Last 1 Year</Select.Option>
+              <Select.Option value="custom">Custom</Select.Option>
+            </Select>
+            {frequency === "custom" && (
+              <RangePicker
+                className="mt-2"
+                value={selectDate}
+                onChange={(values) => setSelectDate(values)}
+              />
+            )}
+          </div>
 
-        <div>
-          <h6>Select type</h6>
-          <Select value={type} onChange={(values) => setType(values)}>
-            <Select.Option value="all">All</Select.Option>
-            <Select.Option value="income">Income</Select.Option>
-            <Select.Option value="expense">Expanse</Select.Option>
-          </Select>
-        </div>
-
-        <div className="switch-icon">
-          <UnorderedListOutlined
-            className={`mx-2 ${
-              viewData === "table" ? "active-icon" : "inactive-icon"
-            }`}
-            onClick={() => setViewData("table")}
-          />
-          <AreaChartOutlined
-            className={`mx-2 ${
-              viewData === "analytics" ? "active-icon" : "inactive-icon"
-            }`}
-            onClick={() => setViewData("analytics")}
-          />
-        </div>
-
-        <div>
-          <button
-            className="btn btn-primary"
-            onClick={() => setShowModal(true)}
-          >
-            Add New
-          </button>
-        </div>
-      </div></div>
-      
-
-      <div className="content">
-        {viewData === "table" ? (
-          <Table className="table-div fw-bold bg-body-secondary " columns={column} dataSource={transactionData} />
-        ) : (
-          <Analytics transactionData={transactionData} />
-        )}
-      </div>
-      <Modal
-        title={editable ? "Edit Transaction" : "Add Transaction"}
-        open={showModal}
-        onCancel={() => {setShowModal(false)}}
-        footer={false}
-        
-      >
-        <hr />
-        <Form
-          layout="vertical"
-          onFinish={handleSubmit}
-          initialValues={editable}
-          
-          
-        >
-          <Form.Item label="Amount" name="amount">
-            <Input type="text" />
-          </Form.Item>
-
-          <Form.Item label="Type" name="type">
-            <Select>
+          <div className="d-flex flex-column">
+            <label className="fw-semibold mb-1">Select Type</label>
+            <Select
+              className="w-100"
+              value={type}
+              onChange={(values) => setType(values)}
+            >
+              <Select.Option value="all">All</Select.Option>
               <Select.Option value="income">Income</Select.Option>
-              <Select.Option value="expense">Expanse</Select.Option>
+              <Select.Option value="expense">Expense</Select.Option>
             </Select>
-          </Form.Item>
+          </div>
 
-          <Form.Item label="Category" name="category">
-            <Select>
-              <Select.Option value="tip">Tip</Select.Option>
-              <Select.Option value="salary">Salary</Select.Option>
-              <Select.Option value="project">Project</Select.Option>
-              <Select.Option value="travels">Travels</Select.Option>
-              <Select.Option value="bills">Bills</Select.Option>
-              <Select.Option value="medical">Medical</Select.Option>
-              <Select.Option value="fee">Fee</Select.Option>
-              <Select.Option value="tax">TAX</Select.Option>
-            </Select>
-          </Form.Item>
+          <div className="d-flex flex-column">
+            <label className="fw-semibold mb-1">View</label>
+            <div>
+              <UnorderedListOutlined
+                className={`mx-2 fs-4 pointer ${
+                  viewData === "table" ? "text-primary" : "text-secondary"
+                }`}
+                onClick={() => setViewData("table")}
+              />
+              <AreaChartOutlined
+                className={`mx-2 fs-4 pointer ${
+                  viewData === "analytics" ? "text-primary" : "text-secondary"
+                }`}
+                onClick={() => setViewData("analytics")}
+              />
+            </div>
+          </div>
 
-          <Form.Item label="Date" name="date">
-            <Input type="date" />
-          </Form.Item>
-
-          <Form.Item label="Reference" name="reference">
-            <Input type="text" />
-          </Form.Item>
-
-
-          <div className="d-flex justify-content-end ">
-            <button type="submit" className="btn btn-primary">
-              SAVE
+          <div className="ms-auto">
+            <button
+              className="btn btn-dark px-4 py-2 fw-semibold"
+              onClick={() => setShowModal(true)}
+            >
+              + Add Transaction
             </button>
           </div>
-        </Form>
+        </div>
+
+        {/* DATA SECTION */}
+        <div className="bg-white p-3 rounded-3 shadow-sm">
+          {viewData === "table" ? (
+            <Table
+              className="table-striped"
+              columns={column}
+              dataSource={transactionData}
+              pagination={{ pageSize: 6 }}
+            />
+          ) : (
+            <Analytics transactionData={transactionData} />
+          )}
+        </div>
+      </div>
+
+      {/* MODAL */}
+      <Modal
+        title={
+          <h3 className="fw-bold text-center mb-0">
+            {editable ? "Edit Transaction" : "Add Transaction"}
+          </h3>
+        }
+        open={showModal}
+        onCancel={() => setShowModal(false)}
+        footer={null}
+        centered
+        className="rounded-4"
+        bodyStyle={{
+          padding: "24px 28px",
+          borderRadius: "12px",
+          background: "#f9fafb",
+        }}
+      >
+        <div
+          style={{
+            background: "white",
+            padding: "24px",
+            borderRadius: "12px",
+            boxShadow: "0 2px 10px rgba(0,0,0,0.08)",
+            border: "1px solid #f0f0f0",
+          }}
+        >
+          <Form
+            layout="vertical"
+            onFinish={handleSubmit}
+            initialValues={editable}
+            className="fw-semibold"
+          >
+            <Form.Item
+              label={<span className="fw-bold">Amount</span>}
+              name="amount"
+              required
+            >
+              <Input
+                type="number"
+                placeholder="Enter amount"
+                className="p-2"
+                style={{ borderRadius: "8px" }}
+              />
+            </Form.Item>
+
+            <Form.Item
+              label={<span className="fw-bold">Transaction Type</span>}
+              name="type"
+            >
+              <Select
+                placeholder="Select type"
+                style={{ borderRadius: "8px" }}
+                className="p-1"
+              >
+                <Select.Option value="income">Income</Select.Option>
+                <Select.Option value="expense">Expense</Select.Option>
+              </Select>
+            </Form.Item>
+
+            <Form.Item
+              label={<span className="fw-bold">Category</span>}
+              name="category"
+            >
+              <Select
+                placeholder="Select category"
+                style={{ borderRadius: "8px" }}
+                className="p-1"
+              >
+                <Select.Option value="tip">Tip</Select.Option>
+                <Select.Option value="salary">Salary</Select.Option>
+                <Select.Option value="project">Project</Select.Option>
+                <Select.Option value="travels">Travels</Select.Option>
+                <Select.Option value="bills">Bills</Select.Option>
+                <Select.Option value="medical">Medical</Select.Option>
+                <Select.Option value="fee">Fee</Select.Option>
+                <Select.Option value="tax">Tax</Select.Option>
+              </Select>
+            </Form.Item>
+
+            <Form.Item
+              label={<span className="fw-bold">Date</span>}
+              name="date"
+            >
+              <Input
+                type="date"
+                className="p-2"
+                style={{ borderRadius: "8px" }}
+              />
+            </Form.Item>
+
+            <Form.Item
+              label={<span className="fw-bold">Reference Note</span>}
+              name="reference"
+            >
+              <Input
+                placeholder="Enter reference"
+                className="p-2"
+                style={{ borderRadius: "8px" }}
+              />
+            </Form.Item>
+
+            <div className="d-flex justify-content-end mt-3">
+              <button
+                type="submit"
+                className="btn btn-dark px-4 py-2 fw-bold"
+                style={{
+                  borderRadius: "8px",
+                  letterSpacing: ".5px",
+                }}
+              >
+                SAVE
+              </button>
+            </div>
+          </Form>
+        </div>
       </Modal>
     </Layout>
   );

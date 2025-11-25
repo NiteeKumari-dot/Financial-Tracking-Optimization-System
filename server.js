@@ -5,7 +5,7 @@ const morgan = require("morgan");
 const dotenv = require("dotenv");
 const connectDb = require("./config/connectDb");
 const cloudinary = require("cloudinary").v2;
-const path=require('path');
+const path = require("path");
 
 // cloudinary config
 
@@ -29,21 +29,22 @@ const app = express();
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(cors());
-app.use(express.static(path.join(__dirname,'/client/build')));
+app.use(express.static(path.join(__dirname, "/client/build")));
 
-app.get('*',(req,res)=>{
-  res.sendFile(path.join(__dirname,'/client/build/index.html'));
-})
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "/client/build/index.html"));
+});
 
 //user routes
 app.use("/api/v1/users", require("./routes/userRoutes"));
+app.use("/api/v1/otp", require("./routes/otpRoutes"));
 
 //transaction routes
 app.use("/api/v1/transaction", require("./routes/transactionRoutes"));
 
 //port
 
-const PORT = 8080 || process.env.PORT;
+const PORT = 8000 || process.env.PORT;
 
 // listen server
 

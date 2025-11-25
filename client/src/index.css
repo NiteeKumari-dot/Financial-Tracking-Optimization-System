@@ -141,3 +141,79 @@
   gap: 5px;
   justify-content: end;
 }
+
+body {
+  background: #f3f4f6;
+  font-family: "Inter", sans-serif;
+}
+
+.navbar-brand {
+  font-size: 1.25rem;
+}
+
+.nav-link:hover {
+  color: #38bdf8 !important;
+  transition: color 0.2s ease;
+}
+
+.navbar-brand:hover {
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
+}
+
+
+.ant-table {
+  border-radius: 10px !important;
+  overflow: hidden;
+}
+
+.table-div {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.ant-form-item-label > label {
+  font-weight: 600 !important;
+}
+
+.ant-modal-content {
+  border-radius: 12px !important;
+  overflow: hidden;
+}
+
+.profile-pic {
+  border-radius: 50%;
+  border: 2px solid #fff;
+}
+
+
+.pointer {
+  cursor: pointer;
+}
+
+.table-striped tbody tr:nth-child(odd) {
+  background-color: #fafafa;
+}
+
+.ant-modal-content {
+  border-radius: 12px !important;
+}
+
+.ant-select-selector {
+  min-height: 40px !important;
+  border-radius: 8px !important;
+}
+
+.ant-picker {
+  min-height: 40px !important;
+  border-radius: 8px !important;
+}
+
+input {
+  border-radius: 8px !important;
+  height: 45px !important;
+}
+
+.btn-dark {
+  border-radius: 8px !important;
+}
