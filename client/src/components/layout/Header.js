@@ -10,7 +10,7 @@ const Header = () => {
   const logoutHandler = () => {
     localStorage.removeItem("user");
     message.success("Logout Successfully");
-    navigate("/login");
+    navigate("/");
   };
 
   useEffect(() => {
@@ -21,19 +21,18 @@ const Header = () => {
     <nav
   className="navbar navbar-expand-lg"
   style={{
-    background: "linear-gradient(90deg, #bbc2d4ff, #1e293b)",
+    background: "#CFEBD6",
     padding: "12px 0",
     boxShadow: "0 2px 10px rgba(0,0,0,0.15)",
   }}
 >
   <div className="container-fluid">
     <Link
-      className="navbar-brand fw-bold text-white d-flex align-items-center"
+      className="navbar-brand fw-bold d-flex align-items-center"
       to="/"
-      style={{ fontSize: "20px", letterSpacing: ".5px" }}
+      style={{ fontSize: "20px", letterSpacing: ".5px", color:"#225F33" }}
     >
-      <XOutlined style={{ marginRight: 8, fontSize: "22px" }} />
-      Expense Management
+    Financial Tracking and Optimization System
     </Link>
 
     <button
@@ -77,7 +76,7 @@ const Header = () => {
             className="btn fw-semibold"
             onClick={logoutHandler}
             style={{
-              background: "#ef4444",
+              background: "#8A1F1F",
               borderRadius: "6px",
               padding: "6px 16px",
               color: "white",

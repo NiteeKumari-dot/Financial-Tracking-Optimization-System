@@ -148,7 +148,8 @@ const HomePage = () => {
 
       <div className="container mt-4">
         {/* FILTER SECTION */}
-        <div className="d-flex flex-wrap gap-4 align-items-end mb-4 p-3 bg-white shadow-sm rounded-3">
+        <div className="d-flex flex-wrap align-items-center gap-4 mb-4 p-3 bg-white shadow-sm rounded-3">
+          {/* Frequency Selector */}
           <div className="d-flex flex-column">
             <label className="fw-semibold mb-1">Select Frequency</label>
             <Select
@@ -170,6 +171,7 @@ const HomePage = () => {
             )}
           </div>
 
+          {/* Type Selector */}
           <div className="d-flex flex-column">
             <label className="fw-semibold mb-1">Select Type</label>
             <Select
@@ -183,9 +185,10 @@ const HomePage = () => {
             </Select>
           </div>
 
-          <div className="d-flex flex-column">
-            <label className="fw-semibold mb-1">View</label>
-            <div>
+          {/* View Selector (Center aligned) */}
+          <div className="d-flex flex-column justify-content-center">
+            <label className="fw-semibold mb-1 text-center">View</label>
+            <div className="d-flex justify-content-center align-items-center">
               <UnorderedListOutlined
                 className={`mx-2 fs-4 pointer ${
                   viewData === "table" ? "text-primary" : "text-secondary"
@@ -201,9 +204,10 @@ const HomePage = () => {
             </div>
           </div>
 
-          <div className="ms-auto">
+          {/* Add Transaction Button */}
+          <div className="ms-auto d-flex">
             <button
-              className="btn btn-dark px-4 py-2 fw-semibold"
+              className="btn btn-success px-4 py-2 fw-semibold"
               onClick={() => setShowModal(true)}
             >
               + Add Transaction

@@ -1,0 +1,190 @@
+/* ===============================
+   GLOBAL COLORS
+================================*/
+:root {
+  --green: #3CB371;
+  --cream: #E6E2C3;
+  --teal: #4AA3A1;
+  --dark-gray: #3D4B52;
+  --yellow: #F2C94C;
+  --orange: #E6582B;
+
+  --text-dark: #1a1a1a;
+  --text-light: #ffffff;
+}
+
+/* ===============================
+   PAGE WRAPPER
+================================*/
+.landing-wrapper {
+  background:#f6fff9;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ===============================
+   NAVBAR (#222222)
+================================*/
+.navbar {
+  background-color:#D9F2E1 !important;
+}
+
+.navbar .navbar-brand,
+.navbar .nav-link,
+.navbar .btn-link {
+  color: #1F3E2A !important;
+  font-weight: 600;
+}
+
+.navbar-toggler {
+  border-color: #ffffff !important;
+}
+
+.navbar-toggler-icon {
+  filter: invert(1);
+}
+
+/* ===============================
+   HERO SECTION (#FAF3E1)
+================================*/
+.landing-wrapper .hero {
+  height: 90vh !important;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #FAFAFA !important;
+  color: #253d2c!important;
+  padding: 20px;
+  margin: 0 !important;
+}
+
+/* Fade animations */
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 1.2s ease forwards;
+}
+
+.delay-1 { animation-delay: 0.4s; }
+.delay-2 { animation-delay: 0.8s; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===============================
+   FEATURE SECTION
+================================*/
+.features {
+  background-color: #FAFAFA !important;
+  padding: 60px 0;
+}
+
+.feature-card1 {
+  background-color: #9785c2;
+  color:white;
+  border-left: 6px solid #5b3f9f;
+  transition: 0.3s ease;
+}
+
+.feature-card2 {
+  background-color: #C47878;
+  color:white;
+  border-left: 6px solid #7e454a;
+  transition: 0.3s ease;
+}
+
+.feature-card3 {
+  background-color: #D29D64;
+  color:white;
+  border-left: 6px solid #926026;
+  transition: 0.3s ease;
+}
+
+.feature-card1:hover {
+  background-color: #2e6f40;
+  color:black;
+  transform: translateY(-5px);
+}
+.feature-card2:hover {
+  background-color: #2e6f40;
+  color:black;
+  transform: translateY(-5px);
+}
+.feature-card3:hover {
+  background-color: #2e6f40;
+  color:black;
+  transform: translateY(-5px);
+}
+
+/* ===============================
+   ABOUT SECTION (#FF6B1F)
+================================*/
+.about-section {
+  background-color: #68ba7f !important;
+  color: #272626 !important;
+  padding: 80px 0;
+  text-align: center;
+}
+
+/* ===============================
+   BUTTONS
+================================*/
+button.btn-light {
+  background:#5C7AB9;
+  border: none;
+  color:white;
+  transition: 0.3s;
+}
+
+button.btn-light:hover {
+  background:#D6E0F5;
+  color:#3B4D75;
+}
+
+/* ===============================
+   MODALS (Compact Like Login Card)
+================================*/
+
+/* Keep the overlay normal */
+
+
+/* Modal container */
+.ant-modal {
+  width: 380px !important;
+  border-radius: 18px !important;
+}
+
+/* Modal card background (the black box) */
+.ant-modal-content {
+  border-radius: 18px !important;
+  padding: 20px !important;
+  max-width: 350px !important;
+  margin: 0 auto !important;
+  background-color:#F9F9F9!important;   /* ONLY modal box is black */
+}
+
+/* Header */
+.ant-modal-header {
+  background: #F9F9F9!important;
+  padding: 12px 20px !important;
+  border-radius: 18px 18px 0 0 !important;
+}
+
+.ant-modal-title {
+  color: white !important;
+  font-size: 1.1rem !important;
+  font-weight: bold !important;
+}
+
+/* Body (form area) – REMOVE black */
+.ant-modal-body {
+  padding: 15px 20px !important;
+  background-color: transparent !important; /* Form area normal */
+}
+
+/* Footer hidden */
+.ant-modal-footer {
+  display: none !important;
+}

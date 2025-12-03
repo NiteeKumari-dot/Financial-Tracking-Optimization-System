@@ -5,12 +5,12 @@ import { useNavigate } from "react-router-dom";
 import Spinner from "../components/Spinner";
 
 const Register = () => {
-  const [step, setStep] = useState(1); // 1: fill info, 2: verify OTP
+  const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Step 1: Send OTP
+  // Send OTP
   const submitInfo = async (values) => {
     setFormData(values);
     try {
@@ -21,35 +21,28 @@ const Register = () => {
       setStep(2);
     } catch (error) {
       setLoading(false);
-      console.error(error);
       message.error("Failed to send OTP. Try again.");
     }
   };
 
-  // Step 2: Verify OTP and Register
+  // Verify OTP + Register
   const verifyOtp = async (values) => {
     try {
       setLoading(true);
-      const otpValue = values.otp.trim();
 
       await axios.post("/api/v1/otp/verify-otp", {
         email: formData.email,
-        otp: otpValue,
+        otp: values.otp.trim(),
       });
 
       await axios.post("/api/v1/users/register", formData);
 
       setLoading(false);
       message.success("Registration successful!");
-      navigate("/login"); // redirect to login
+      navigate("/login");
     } catch (error) {
       setLoading(false);
-      console.error(error);
-      if (error.response && error.response.data?.message) {
-        message.error(error.response.data.message);
-      } else {
-        message.error("Failed to verify OTP");
-      }
+      message.error(error.response?.data?.message || "Failed to verify OTP");
     }
   };
 
@@ -57,102 +50,91 @@ const Register = () => {
     <>
       {loading && <Spinner />}
 
-      <div className="d-flex align-items-center justify-content-center vh-100">
+      <div className="border rounded-4">
         <div
-          className="shadow p-4 p-md-5 bg-white rounded-4 w-100"
-          style={{ maxWidth: "450px" }}
+          className="p-4 bg-white rounded-4 shadow-sm"
+          style={{
+            width: "100%",
+            maxWidth: "360px",
+            borderRadius: "20px",
+          }}
         >
           {step === 1 ? (
             <Form layout="vertical" onFinish={submitInfo}>
-              <h1 className="fw-bold text-center text-white bg-dark py-2 rounded-3">
-                Sign Up
-              </h1>
-              <hr />
+              <h2 className="fw-bold text-center mb-3">Sign Up</h2>
 
               <Form.Item
                 label="Full Name"
                 name="name"
-                className="fw-bold"
                 rules={[{ required: true, message: "Please enter your name" }]}
               >
-                <Input className="fw-bold p-3" placeholder="Full Name" />
+                <Input className="p-3" placeholder="Full Name" />
               </Form.Item>
 
               <Form.Item
                 label="Email"
                 name="email"
-                className="fw-bold"
-                rules={[{ required: true, message: "Please enter your email" }]}
+                rules={[{ required: true, message: "Enter your email" }]}
               >
-                <Input className="fw-bold p-3" placeholder="Email Address" />
+                <Input className="p-3" placeholder="Email Address" />
               </Form.Item>
 
               <Form.Item
                 label="Password"
                 name="password"
-                className="fw-bold"
-                rules={[{ required: true, message: "Please enter a password" }]}
+                rules={[{ required: true, message: "Enter a password" }]}
               >
-                <Input
-                  type="password"
-                  className="fw-bold p-3"
-                  placeholder="Password"
-                />
+                <Input type="password" className="p-3" placeholder="Password" />
               </Form.Item>
 
-              <button className="btn btn-dark w-100 fw-bold p-3 mt-2">
+              <button
+                className="btn  w-100 fw-bold p-3 mt-2 rounded-3"
+                style={{
+                  background: "#225F33",
+                  color: "white",
+                  padding: "12px",
+                  borderRadius: "12px",
+                  fontSize: "1rem",
+                }}
+              >
                 Send OTP
               </button>
-
-              <div className="d-flex justify-content-center fw-bold mt-3 gap-1">
-                Already have an account?
-                <span
-                  className="fw-bold text-decoration-none text-primary"
-                  style={{ cursor: "pointer" }}
-                  onClick={() => navigate("/login")}
-                >
-                  Sign In
-                </span>
-              </div>
             </Form>
           ) : (
             <Form layout="vertical" onFinish={verifyOtp}>
-              <h1 className="fw-bold text-center text-white bg-dark py-2 rounded-3">
-                Verify OTP
-              </h1>
-              <hr />
+              <h2 className="fw-bold text-center mb-3">Verify OTP</h2>
 
               <Form.Item
-                label="OTP"
+                label="Enter OTP"
                 name="otp"
-                className="fw-bold"
                 rules={[{ required: true, message: "Please enter OTP" }]}
               >
                 <Input
-                  className="fw-bold p-3"
-                  placeholder="Enter OTP"
+                  className="p-3"
+                  placeholder="6-digit OTP"
                   maxLength={6}
                 />
               </Form.Item>
 
-              <button className="btn btn-dark w-100 fw-bold p-3 mt-2">
+              <button className="btn btn-dark w-100 fw-bold p-3 mt-2 rounded-3">
                 Verify & Register
               </button>
 
-              <div className="d-flex justify-content-center fw-bold mt-3 gap-2 flex-column align-items-center">
+              <div className="text-center mt-3">
                 <span
-                  className="fw-bold text-decoration-none text-primary"
+                  className="fw-bold text-primary"
                   style={{ cursor: "pointer" }}
                   onClick={() => setStep(1)}
                 >
                   Resend OTP
                 </span>
+
                 <span
-                  className="fw-bold text-decoration-none text-primary mt-1"
+                  className="fw-bold text-primary"
                   style={{ cursor: "pointer" }}
                   onClick={() => navigate("/login")}
                 >
-                  Go to Login
+                  Login
                 </span>
               </div>
             </Form>
